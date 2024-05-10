@@ -1,20 +1,16 @@
-from flask import Flask, render_template, request, jsonify
+import streamlit as st
 import requests
 import json
 
-app = Flask(__name__)
+st.title('Phone Number Verification')
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+phoneNumber = st.text_input('Enter your phone number:')
 
-@app.route('/verify', methods=['POST'])
-def verify():
-    num = request.json['phoneNumber']
+if st.button('Verify'):
+    num = phoneNumber
     n = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6UXpRekpFTlVNeE16aEdOemcwUlRjeVF6VXdRVEkyTWpoRlJEZEROVE0xTVVNM1F6TTJPUSJ9.eyJodHRwczovL21hZi5ncmF2dHkuYXV0aC9kZXYvYXBpL2VtYWlsIjoiZ2RmZ2Zzc2Z0Z2NmeGZmQGpnZ3V1LmNvbSIsImh0dHBzOi8vbWFmLmlkZW50aXR5LmF1dGgvZGV2L2FwaS9lbWFpbCI6ImdkZmdmc3NmdGdjZnhmZkBqZ2d1dS5jb20iLCJodHRwczovL21hZi5pZGVudGl0eS5hdXRoL2Rldi9hcGkvcmlkIjoiNWZhNzQ2M2UtOTQxZi00YmZmLTg1M2QtYmU2MTBhNTc4NDdmIiwiaHR0cHM6Ly9tYWYuaWRlbnRpdHkuYXV0aC9kZXYvYXBpL21pcmFrbF9zaG9wX2lkIjpudWxsLCJodHRwczovL21hZi5pZGVudGl0eS5hdXRoL2Rldi9hcGkvdGltZSI6IjIwMjQtMDQtMjlUMTc6NTU6MDIuNjAzWiIsImh0dHBzOi8vbWFmLmdyYXZ0eS5hdXRoL2Rldi9hcGkvdXVpZCI6IjY3MGFhY2I2LTU4YjktNGEyNS1hMmVlLWRjNWJjYjk2ODk3OSIsImh0dHBzOi8vbWFmLmlkZW50aXR5LmF1dGgvZGV2L2FwaS91dWlkIjoiNjcwYWFjYjYtNThiOS00YTI1LWEyZWUtZGM1YmNiOTY4OTc5IiwiaHR0cHM6Ly9tYWYuaWRlbnRpdHkuYXV0aC9kZXYvYXBpL2VtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9wcm9kdWN0aW9uLm1hZi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjYyZmRlZjYyMDMxZjU4MGQ3YzhmZDVhIiwiYXVkIjpbImh0dHBzOi8vcHJvZHVjdGlvbi5tYWYuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL3Byb2R1Y3Rpb24ubWFmLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3MTQ0MTMzMDIsImV4cCI6MTcxNzAwNTMwMiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCByZWFkOmN1cnJlbnRfdXNlciB1cGRhdGU6Y3VycmVudF91c2VyX21ldGFkYXRhIGRlbGV0ZTpjdXJyZW50X3VzZXJfbWV0YWRhdGEgY3JlYXRlOmN1cnJlbnRfdXNlcl9tZXRhZGF0YSBjcmVhdGU6Y3VycmVudF91c2VyX2RldmljZV9jcmVkZW50aWFscyBkZWxldGU6Y3VycmVudF91c2VyX2RldmljZV9jcmVkZW50aWFscyB1cGRhdGU6Y3VycmVudF91c2VyX2lkZW50aXRpZXMgb2ZmbGluZV9hY2Nlc3MiLCJndHkiOiJwYXNzd29yZCIsImF6cCI6ImNGdlJQMmN1QnhiM2l2Q0hkY1B5VGVYZmdUS3ZIV01hIn0.IszxGn-Lk6IaSprUAc8NFc6TmZas1vS7G_jkhcRHkI8gc8XcBeQnU4n2X6AcB6SEg1Gr8gGJIboV23cVj6Iul3aU8DaN8qF1KEpRwb7KkP6tCFAloJgv8QHuBP_1NV2_bgUBBXykJmhY6-8PnJKNHE3MHK1rD2q1Mk1f7c863oz-UJQWwcoZlGZHFAgZYrEpDQx3Ox0J5Pu2LXnMBafwYqxoWL4BueN-rfWhdN7Z3xgsd1ZFxUJkqkn5asXU5XFs6BgKengxIbduUJzy6JXRwpWXkVxro8uEkhScHjw7ojlW8GXG6_eSTmXi8SsYpziU_DWy0FsCTDBhBx9hnyUp3A"
     if num.startswith("0"):
         nu = num[1:]
-        
     else:
         nu = num
 
@@ -65,7 +61,4 @@ def verify():
 
     response1 = requests.post(url1, data=payload1, headers=headers)
 
-    return jsonify({"message": "Verification request sent successfully."})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    st.json({"message": "Verification request sent successfully."})
