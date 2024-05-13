@@ -4,4 +4,3 @@ telebot
 streamlit
 requests
 pyTelegramBotAPI
-hashlib
