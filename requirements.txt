@@ -1,3 +1,7 @@
 streamlit
 requests
 telebot
+streamlit
+requests
+pyTelegramBotAPI
+hashlib
