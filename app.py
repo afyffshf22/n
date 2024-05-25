@@ -42,6 +42,6 @@ while True:
 
  st.write(response.text)
  bot.send_message(chat_id, (response.text))
- print(response.text)
+# print(response.text)
  time.sleep(20)
- bot.delete_message(chat_id, (response.text))
+ #bot.delete_message(chat_id, (response.text))
