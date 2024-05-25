@@ -8,7 +8,7 @@ while True:
  import telebot
 
 # مرر التوكن إلى المكتبة
- bot = telebot.TeleBot('6821063973:AAE0p6DqcFARNsWSBcxOsya0Y8chNJo919c')
+ bot = telebot.TeleBot('7060312406:AAGqNhOh6s4RVufoV4Qp1eq8D0DNNDfDiZs')
 
 # ارسال رسالة الى هذا ال id
  chat_id = 5939899289
@@ -43,5 +43,5 @@ while True:
 # st.write(response.text)
  bot.send_message(chat_id, (response.text))
 # print(response.text)
- time.sleep(20)
+ time.sleep(10*60)
  #bot.delete_message(chat_id, (response.text))
