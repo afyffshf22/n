@@ -1,7 +1,9 @@
 while True:
  import requests
  import time
- import streamlit as st import requests import time
+ import streamlit as st 
+ import requests 
+ import time
  url = "https://moakt.com/ar/inbox/extend"
 
  payload = "getJson=true"
