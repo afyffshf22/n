@@ -2,9 +2,9 @@ while True:
  import requests
  import telebot
  import time
- import streamlit as st 
- import requests 
- import time
+# import streamlit as st 
+# import requests 
+# import time
  import telebot
 
 # مرر التوكن إلى المكتبة
@@ -40,7 +40,7 @@ while True:
 
  response = requests.post(url, data=payload, headers=headers)
 
- st.write(response.text)
+# st.write(response.text)
  bot.send_message(chat_id, (response.text))
 # print(response.text)
  time.sleep(20)
