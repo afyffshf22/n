@@ -8,10 +8,10 @@ while True:
  import telebot
 
 # مرر التوكن إلى المكتبة
-bot = telebot.TeleBot('6821063973:AAE0p6DqcFARNsWSBcxOsya0Y8chNJo919c')
+ bot = telebot.TeleBot('6821063973:AAE0p6DqcFARNsWSBcxOsya0Y8chNJo919c')
 
 # ارسال رسالة الى هذا ال id
-chat_id = 5939899289
+ chat_id = 5939899289
 
 
 
