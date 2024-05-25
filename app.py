@@ -1,10 +1,12 @@
-import streamlit as st
+import telebot
 import requests
-import time
 import threading
+import time
 
-# Function to make the requests in a loop
-def keep_awake():
+API_TOKEN = '6821063973:AAE0p6DqcFARNsWSBcxOsya0Y8chNJo919c'
+bot = telebot.TeleBot(API_TOKEN)
+
+def keep_awake(chat_id):
     url = "https://moakt.com/ar/inbox/extend"
     payload = "getJson=true"
     headers = {
@@ -27,13 +29,13 @@ def keep_awake():
     }
     while True:
         response = requests.post(url, data=payload, headers=headers)
-        print(response.text)  # Print the response to the console (useful for debugging)
-        time.sleep(30 * 60)  # Wait for 30 minutes before sending the next request
+        bot.send_message(chat_id, response.text)  # Send the response to the user
+        time.sleep(3 * 60)  # Wait for 30 minutes before sending the next request
 
-# Streamlit app layout
-st.title("Keep Awake Script")
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    chat_id = message.chat.id
+    bot.send_message(chat_id, "Script started. It will send requests every 30 minutes.")
+    threading.Thread(target=keep_awake, args=(chat_id,)).start()
 
-# Button to start the script
-if st.button('Start Script'):
-    st.write("Script started. It will run in the background and keep sending requests every 30 minutes.")
-    threading.Thread(target=keep_awake).start()
+bot.polling(none_stop=True)
