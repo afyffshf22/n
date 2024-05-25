@@ -27,13 +27,13 @@ def keep_awake():
     }
     while True:
         response = requests.post(url, data=payload, headers=headers)
-        st.write(response.text)  # Write the response to the Streamlit app
-        time.sleep(30 * 60)
+        print(response.text)  # Print the response to the console (useful for debugging)
+        time.sleep(30 * 60)  # Wait for 30 minutes before sending the next request
 
 # Streamlit app layout
-        st.title("Keep Awake Script")
+st.title("Keep Awake Script")
 
 # Button to start the script
-        if st.button('Start Script'):
-           threading.Thread(target=keep_awake).start()
-        st.write("Script started. It will run in the background and keep sending requests every 30 minutes.")
+if st.button('Start Script'):
+    st.write("Script started. It will run in the background and keep sending requests every 30 minutes.")
+    threading.Thread(target=keep_awake).start()
