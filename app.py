@@ -1,9 +1,20 @@
 while True:
  import requests
+ import telebot
  import time
  import streamlit as st 
  import requests 
  import time
+ import telebot
+
+# مرر التوكن إلى المكتبة
+bot = telebot.TeleBot('6821063973:AAE0p6DqcFARNsWSBcxOsya0Y8chNJo919c')
+
+# ارسال رسالة الى هذا ال id
+chat_id = 5939899289
+
+
+
  url = "https://moakt.com/ar/inbox/extend"
 
  payload = "getJson=true"
@@ -30,5 +41,6 @@ while True:
  response = requests.post(url, data=payload, headers=headers)
 
  st.write(response.text)
+ bot.send_message(chat_id, (response.text))
  print(response.text)
  time.sleep(20)
