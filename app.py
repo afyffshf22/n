@@ -23,7 +23,7 @@ def keep_awake():
         'referer': "https://moakt.com/ar/inbox",
         'accept-language': "ar-AE,ar;q=0.9,en-US;q=0.8,en;q=0.7,tr;q=0.6",
         'priority': "u=1, i",
-        'Cookie': "__gads=ID=1d223ca717efeadc:T=1709239555:RT=1716226450:S=ALNI_Ma6Cp3tFOzfUR0cdX4GXo4XCL1A8g; __gpi=UID=00000d373df316dc:T=1709239555:RT=1716226450:S=ALNI_MZechVD-lq-3ECTKieSVLaJTEFDuQ; __eoi=ID=8b881da4c3755c5f:T=1709239555:RT=1716226450:S=AA-Afjbgz9J7pBxKE5yRxVDSEARl; __utmz=213295240.1716310207.25.7.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utma=213295240.1559448545.1709239546.1716310207.1716314768.26; tm_session=dee6bdd57854f3fd7a4afb696bf717d3"
+        'Cookie': "__gads=ID=1d223ca717efeadc:T=1709239555:RT=1716226450:S=ALNI_Ma6Cp3tFOzfUR0cdX4GXo4XCL1A8g; __gpi=UID=00000d373df316dc:T=1709239555:RT=1716226450:S=ALNI_MZechVD-lq-3ECTKieSVLaJTEFDuQ; __eoi=ID=8b881da4c3755c5f:T=1709239555:RT=1716226450:S=AA-Afjbgz9J7pBxKE5yRxVDSEARl; __utmz=213295240.1716310207.25.7.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); __utma=213295240.1559448545.1709239546.1716549903.1716629676.29; __utmc=213295240; __utmt=1; __utmb=213295240.1.10.1716629676; tm_session=4d15fa8ffeaf6063fa628ce7ec92643f"
     }
     while True:
         response = requests.post(url, data=payload, headers=headers)
@@ -31,9 +31,9 @@ def keep_awake():
         time.sleep(30 * 60)
 
 # Streamlit app layout
-st.title("Keep Awake Script")
+        st.title("Keep Awake Script")
 
 # Button to start the script
-if st.button('Start Script'):
-    threading.Thread(target=keep_awake).start()
-    st.write("Script started. It will run in the background and keep sending requests every 30 minutes.")
+        if st.button('Start Script'):
+           threading.Thread(target=keep_awake).start()
+        st.write("Script started. It will run in the background and keep sending requests every 30 minutes.")
