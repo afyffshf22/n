@@ -1,27 +1,65 @@
 import streamlit as st
 import cloudscraper
 import json
+import random
+import uuid
 
 # إعداد واجهة المستخدم
-st.title("تحقق من رقم الهاتف")
-phone_number = st.text_input("الرجاء إدخال رقم الهاتف:")
+st.title("تنفيذ طلبات HTTP")
+mobile_number = st.text_input("الرجاء إدخال رقم الهاتف:")
 
-if st.button("تحقق"):
-    if phone_number:
-        url = "https://api.halan.io/api/v1/client/register/check"
-        payload = json.dumps({
-            "phoneNumber": phone_number
+if st.button("تنفيذ الطلبات"):
+    if mobile_number:
+        # توليد قيم عشوائية
+        device_id = str(uuid.uuid4())
+        area_id = str(random.randint(1, 100))
+        city_id = str(random.randint(1, 50))
+        dev_token = str(uuid.uuid4())
+
+        # إعداد الطلب الأول
+        url_1 = "https://api.goooapp.com/api/Customers/Register"
+        payload_1 = json.dumps({
+            "DeviceId": device_id,
+            "Email": "example@example.com",
+            "FlgLanguage": "ar-EG",
+            "Mobile": mobile_number,
+            "Name": "example_name",
+            "Password": "example_password123",
+            "areaId": area_id,
+            "cityId": city_id,
+            "dev_token": dev_token
         })
-        headers = {
-            'User-Agent': "okhttp/4.8.0",
-            'Accept-Encoding': "gzip",
-            'selectedcountry': "",
-            'storeversion': "5.5.2",
-            'version': "350",
-            'content-type': "application/json; charset=UTF-8"
+        headers_1 = {
+            'Host': "api.goooapp.com",
+            'accept-language': "ar-EG",
+            'content-type': "application/json; charset=UTF-8",
+            'accept-encoding': "gzip",
+            'user-agent': "okhttp/4.9.0"
         }
+
+        # إعداد الطلب الثاني
+        url_2 = "https://api.goooapp.com/api/Users/ForgetPassword"
+        payload_2 = json.dumps({
+            "Mobile": mobile_number
+        })
+        headers_2 = {
+            'Host': "api.goooapp.com",
+            'accept-language': "ar-EG",
+            'content-type': "application/json; charset=UTF-8",
+            'accept-encoding': "gzip",
+            'user-agent': "okhttp/4.9.0"
+        }
+
+        # تنفيذ الطلبات باستخدام cloudscraper
         scraper = cloudscraper.create_scraper()
-        response = scraper.post(url, data=payload, headers=headers)
-        st.write(response.text)
+
+        response_1 = scraper.post(url_1, data=payload_1, headers=headers_1)
+        response_2 = scraper.post(url_2, data=payload_2, headers=headers_2)
+
+        # عرض النتائج
+        st.write("الرد على الطلب الأول:")
+        st.write(response_1.text)
+        st.write("الرد على الطلب الثاني:")
+        st.write(response_2.text)
     else:
         st.write("يرجى إدخال رقم الهاتف")
