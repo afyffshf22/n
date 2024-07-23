@@ -1,30 +1,29 @@
 import streamlit as st
 import cloudscraper
 import json
-import random
-import uuid
 
 # إعداد واجهة المستخدم
 st.title("تنفيذ طلبات HTTP")
 mobile_number = st.text_input("الرجاء إدخال رقم الهاتف:")
+email = st.text_input("الرجاء إدخال البريد الإلكتروني:")
+name = st.text_input("الرجاء إدخال الاسم:")
+password = st.text_input("الرجاء إدخال كلمة المرور:", type="password")
+device_id = st.text_input("الرجاء إدخال معرف الجهاز:")
+area_id = st.text_input("الرجاء إدخال معرف المنطقة:")
+city_id = st.text_input("الرجاء إدخال معرف المدينة:")
+dev_token = st.text_input("الرجاء إدخال رمز الجهاز:")
 
 if st.button("تنفيذ الطلبات"):
-    if mobile_number:
-        # توليد قيم عشوائية
-        device_id = str(uuid.uuid4())
-        area_id = str(random.randint(1, 100))
-        city_id = str(random.randint(1, 50))
-        dev_token = str(uuid.uuid4())
-
+    if mobile_number and email and name and password and device_id and area_id and city_id and dev_token:
         # إعداد الطلب الأول
         url_1 = "https://api.goooapp.com/api/Customers/Register"
         payload_1 = json.dumps({
             "DeviceId": device_id,
-            "Email": "example@example.com",
+            "Email": email,
             "FlgLanguage": "ar-EG",
             "Mobile": mobile_number,
-            "Name": "example_name",
-            "Password": "example_password123",
+            "Name": name,
+            "Password": password,
             "areaId": area_id,
             "cityId": city_id,
             "dev_token": dev_token
@@ -62,4 +61,4 @@ if st.button("تنفيذ الطلبات"):
         st.write("الرد على الطلب الثاني:")
         st.write(response_2.text)
     else:
-        st.write("يرجى إدخال رقم الهاتف")
+        st.write("يرجى ملء جميع الحقول المطلوبة")
