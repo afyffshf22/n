@@ -5,5 +5,3 @@ streamlit
 requests
 pyTelegramBotAPI
 cloudscraper
-random
-uuid
